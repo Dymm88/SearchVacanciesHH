@@ -4,7 +4,7 @@ from config import HEADERS, RESUME
 from message import MESSAGE_TEXT
 
 
-def get_all_vacancies(params):
+def get_all_vacancies(params: dict[str | int | bool]) -> list[dict]:
     url = "https://api.hh.ru/vacancies"
 
     vacancy_list = []
@@ -18,12 +18,12 @@ def get_all_vacancies(params):
     return vacancy_list
 
 
-def vacancy_ids(list_data):
+def vacancy_ids(list_data: list[dict]) -> list[int]:
     vacancy_id = [vacancy["id"] for vacancy in list_data]
     return vacancy_id
 
 
-def response_vacancies(list_vacancies):
+def response_vacancies(list_vacancies: list[int]):
     success = 0
     for item in list_vacancies:
         r = requests.post(

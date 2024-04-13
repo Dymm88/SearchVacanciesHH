@@ -3,7 +3,7 @@ import requests
 from config import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, EMAIL, REFRESH_TOKEN
 
 
-def get_access_code():
+def get_access_code() -> str:
     url = 'https://hh.ru/oauth/autorize'
     authorize_url = url + '?response_type=code&client_id=' + CLIENT_ID + '&redirect_uri=' + REDIRECT_URI
     print('Переход на страницу авторизации: ', authorize_url)
@@ -19,7 +19,7 @@ headers = {
 token_url = 'https://hh.ru/oauth/token'
 
 
-def get_access_token(access_code):
+def get_access_token(access_code: str):
     data = {
         'grand_type': 'authorization_code',
         'client_id': CLIENT_ID,
@@ -49,4 +49,6 @@ def refresh_token():
 
 
 if __name__ == '__main__':
+    code = get_access_code()
+    get_access_token(code)
     refresh_token()
