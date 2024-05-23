@@ -1,54 +1,54 @@
 import requests
 
-from config import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, EMAIL, REFRESH_TOKEN
+from config import (CLIENT_ID, CLIENT_SECRET,
+                    REDIRECT_URI, TOKEN, REFRESH_TOKEN)
 
 
-def get_access_code() -> str:
-    url = 'https://hh.ru/oauth/autorize'
-    authorize_url = url + '?response_type=code&client_id=' + CLIENT_ID + '&redirect_uri=' + REDIRECT_URI
-    print('Переход на страницу авторизации: ', authorize_url)
-    access_code = input('Код авторизации: ')
-    return access_code
+def get_code():
+    auth_code = (f'https://hh.ru/oauth/authorize?'
+                 f'response_type=code&client_id={CLIENT_ID}&'
+                 f'redirect_uri={REDIRECT_URI}')
+    print('Перейди по ссылке и скопируй код:', auth_code)
+    code = input('Вставь код авторизации: ')
+    return code
 
 
-headers = {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'User-Agent': f'VacancyBot/1.0 ({EMAIL})',
-}
-
-token_url = 'https://hh.ru/oauth/token'
-
-
-def get_access_token(access_code: str):
+def get_token(ac_code):
+    url = 'https://api.hh.ru/token'
+    headers = {
+        'Usr-Agent': 'VacancyBot',
+        'Content-Type': 'application/x-www-form-urlencoded',
+    }
     data = {
-        'grand_type': 'authorization_code',
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
-        'code': access_code,
+        'code': ac_code,
+        'grant_type': 'authorization_code',
         'redirect_uri': REDIRECT_URI,
     }
-
-    r = requests.post(token_url, headers=headers, data=data)
-    token = r.json()['access_token']
-    refresh = r.json()['refresh_token']
-    print(token)
-    print(refresh)
+    r = requests.post(url=url, headers=headers, data=data)
+    print(r.json())
 
 
 def refresh_token():
+    url = 'https://api.hh.ru/token'
+    headers = {
+        'Authorization': f'Bearer {TOKEN}',
+        'User-Agent': 'VacancyBot',
+        'Content-Type': 'application/x-www-form-urlencoded',
+    }
     data = {
-        'grand_type': 'refresh_token',
+        'grant_type': 'refresh_token',
         'refresh_token': REFRESH_TOKEN,
     }
-
-    r = requests.post(token_url, headers=headers, data=data)
-    token = r.json()['access_token']
-    refresh = r.json()['refresh_token']
-    print(token)
-    print(refresh)
+    r = requests.post(url=url, headers=headers, data=data)
+    print(r.json())
 
 
+""" Ненужное закомментировать """
 if __name__ == '__main__':
-    code = get_access_code()
-    get_access_token(code)
+    """ Для получения токена """
+    access_code = get_code()
+    get_token(access_code)
+    """ Для обновления токена """
     refresh_token()

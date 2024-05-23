@@ -4,9 +4,10 @@ params_SPb = {
     "per_page": 50,
     "page": 0,
     "experience": "noExperience",
-    "period": 2,
+    "period": 7,
     "search_field": "description",
     "archived": False,
+    "not_text": "Преподаватель,Наставник, преподаватель,наставник",
 }
 
 params_All = {
@@ -15,8 +16,9 @@ params_All = {
     "per_page": 50,
     "page": 0,
     "experience": "noExperience",
-    "period": 2,
+    "period": 7,
     "search_field": "description",
     "archived": False,
     "schedule": "remote",
+    "not_text": "Преподаватель,Наставник,преподаватель,наставник",
 }
