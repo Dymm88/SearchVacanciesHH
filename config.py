@@ -11,9 +11,10 @@ TOKEN = os.getenv('TOKEN')
 REFRESH_TOKEN = os.getenv('REFRESH_TOKEN')
 EMAIL = os.getenv('EMAIL')
 RESUME = os.getenv('RESUME_ID')
+APPLICATION = os.getenv('APPLICATION')
 
 HEADERS = {
     "Authorization": f"Bearer {TOKEN}",
-    "User-Agent": f"VacancyBot/1.0 ({EMAIL})",  # VacancyBot название моего приложения, необходимо подставить свое
+    "User-Agent": f"{APPLICATION} ({EMAIL})",
     "Content-Type": "application/json",
 }
